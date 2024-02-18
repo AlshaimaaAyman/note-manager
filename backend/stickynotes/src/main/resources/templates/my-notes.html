@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="layout/main">
+
+<head>
+<meta charset="ISO-8859-1">
+<title>My Notes</title>
+</head>
+
+	
+<body>
+	<span layout:fragment="page-name">MY NOTES</span>
+	<div layout:fragment="content">
+		        
+		<div class="row">
+        <div class="col-12" th:each="note : ${notes}">
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="card-subtitle mb-2 text-muted">Created : <span th:text="${note.getCreatedAt()}"></span></h6>
+                    <p class="card-text" th:text="${note.getNote()}"></p>
+                    
+                </div>
+            </div>
+        </div>
+      </div>
+   </div>
+</body>
+</html>

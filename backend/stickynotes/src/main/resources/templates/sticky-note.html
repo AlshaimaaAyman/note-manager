@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="layout/main">
+<head>
+<meta charset="ISO-8859-1">
+<title>sticky-note</title>
+<style>
+	.sub-title{
+		color:gray;
+		font-size: 20px;
+	}
+	.edit-btn{
+		float: right;
+	}
+</style>
+</head>
+<body>
+	<span layout:fragment="page-name">
+		Sticky Notes /  <span class="sub-title" th:text="${StickyNote.getName()}"></span>
+	<span class="edit-btn">
+	    <a class="btn btn-primary" th:href="@{'/sticky-note/edit-sticky-note/' + ${StickyNote.getId()}}" role="button">Edit</a>
+	    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addNoteModal">Add Note</button>
+	</span>
+	</span>
+	
+	<div layout:fragment="content">
+		<div class="row">
+			    <div class="col-12">
+                    <div class="card" th:styleappend="${'background-color: ' + StickyNote.getColor()}">
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="${StickyNote.getName()}"></h5>
+                            <h6 class="card-subtitle mb-2 text-muted">Created : <span th:text="${StickyNote.getCreatedAt()}"></span></h6>
+                            <p class="card-text" th:text="${StickyNote.getDescription()}"></p>
+                        </div>
+                    </div>
+                </div>
+		</div>	
+        
+		<div class="row">
+        <div class="col-12" th:each="note : ${notes}">
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="card-subtitle mb-2 text-muted">Created : <span th:text="${note.getCreatedAt()}"></span></h6>
+                    <p class="card-text" th:text="${note.getNote()}"></p>
+                    <a th:href="${'/stickyNotes/note/delete/' + note.getId() + '/' + StickyNote.getId() }" class="btn btn-sm btn-danger">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+     
+     <!-- Modal -->
+<div class="modal fade" id="addNoteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      	<form th:action="${'/stickyNotes/note/add/' + StickyNote.getId()}" method="post">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add New Note</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      	<div class="row">
+      		
+      			<div class="col-12">
+      			<div class="form-group">
+      				<label for="note">Note</label>
+      				<textarea type="text" name="note" id="note" class="form-control"></textarea>
+      		
+      	       </div>
+      	      </div> 
+      		
+      	</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save changes</button>
+        </form>	
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+		
+</body>
+</html>
